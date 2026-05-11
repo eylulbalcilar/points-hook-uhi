@@ -1,66 +1,52 @@
-## Foundry
+# Points Hook - Uniswap v4
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A Uniswap v4 hook that rewards swappers with ERC-1155 points tokens when buying TOKEN with ETH.
 
-Foundry consists of:
+## Overview
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+This hook attaches to ETH-TOKEN pools and issues POINTS tokens to users who swap ETH for TOKEN. Users receive points equal to 20% of the ETH amount spent.
 
-## Documentation
+## How It Works
 
-https://book.getfoundry.sh/
+- Hook activates on `afterSwap`
+- Checks if the pool is an ETH-TOKEN pool
+- Checks if the swap direction is ETH to TOKEN (zeroForOne)
+- Mints ERC-1155 POINTS tokens equal to 20% of ETH spent
+- User address is passed via `hookData`
 
-## Usage
+## Setup
 
-### Build
-
-```shell
-$ forge build
+```bash
+forge install
+forge build
 ```
 
-### Test
+## Test
 
-```shell
-$ forge test
+```bash
+forge test
 ```
 
-### Format
+## Deploy
 
-```shell
-$ forge fmt
+```bash
+cp .env.example .env
+# Fill in your PRIVATE_KEY, SEPOLIA_RPC_URL, ETHERSCAN_API_KEY
+forge script script/DeployHook.s.sol --rpc-url $SEPOLIA_RPC_URL --chain-id 11155111 --broadcast
 ```
 
-### Gas Snapshots
+## Deployment
 
-```shell
-$ forge snapshot
-```
+Deployed to Sepolia testnet:
+- Transaction: `0x1ed88151bb665905cee46d3cfbe4496b1ec02fe563191b9a1213ae785ccae4ec`
 
-### Anvil
+## Built With
 
-```shell
-$ anvil
-```
+- Uniswap v4 Hook Architecture
+- Foundry
+- Solidity 0.8.26
+- ERC-1155
 
-### Deploy
+## Part of
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+UHI9 - Uniswap Hook Incubator Cohort 9
